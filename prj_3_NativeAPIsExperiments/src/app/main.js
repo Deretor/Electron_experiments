@@ -36,10 +36,33 @@ let defineWindow = () => {
     });
 };
 
-let defineMenu =() => {
+let defineMenu = () => {
+    let name = electron.app.getName();
     const template = [
         {
-            label: electron.app.getName()
+            label: 'Меню',
+            submenu: [
+                {
+                    label: `О ${name}`,
+                    click: () => {
+                        console.log('submenu about click');
+                    },
+                    role: 'about'
+
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: `Выход`,
+                    click: () => {
+                        app.quit();
+                    },
+                    accelerator: 'CommandOrControl+Q'
+
+
+                }
+            ]
         }
     ];
     const menu = Menu.buildFromTemplate(template);
@@ -51,7 +74,7 @@ let timer;
 
 let activate = () => {
     app.on('ready', () => {
-        console.log('ready prj_2_CoundownAPP !!!');
+        console.log(`ready ${electron.app.getName()} !!!`);
         defineWindow();
         defineMenu();
         defineWindowHandlers();
