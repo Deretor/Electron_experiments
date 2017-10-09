@@ -1,0 +1,33 @@
+
+h1 {
+    color: red;
+}
+i{
+    color: green;
+    font-weight: bolder;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.cdHeader{
+    font-family: sans-serif;
+}
+.cdArea{
+    margin-bottom: 1.5em;
+    font-size: 3em;
+}
+.cdBtn{
+    display: block;
+    font-size: 1.1em;
+    padding: 1em 2em;
+    border: 0;
+    background-color: rgba(151, 0, 1, 0.71);
+
+}
