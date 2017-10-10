@@ -1,9 +1,12 @@
 const electron = require('electron');
 const countdown = require('./scripts/countDown.js');
+const path = require('path');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
+const Tray = electron.Tray;
+
 const ipc = electron.ipcMain;
 
 let mainWindow;
@@ -29,6 +32,26 @@ let defineWindowHandlers = () => {
     }
 };
 
+let defineTray = () => {
+    const path1 = path.join('src', 'app/content/img/someIcon.jpg');
+    const tray = new Tray(path1);
+
+    const trayMenu = Menu.buildFromTemplate([
+        {
+            label: 'Native API Demo'
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: 'Закрыть',
+            click: () => app.quit()
+        }
+    ]);
+    tray.setToolTip('Native API Demo');
+    tray.setContextMenu(trayMenu);
+};
+
 let defineWindow = () => {
     mainWindow = new BrowserWindow({
         height: 400,
@@ -48,7 +71,6 @@ let defineMenu = () => {
                         console.log('submenu about click');
                     },
                     role: 'about'
-
                 },
                 {
                     type: 'separator'
@@ -59,8 +81,6 @@ let defineMenu = () => {
                         app.quit();
                     },
                     accelerator: 'CommandOrControl+Q'
-
-
                 }
             ]
         }
@@ -74,11 +94,16 @@ let timer;
 
 let activate = () => {
     app.on('ready', () => {
-        console.log(`ready ${electron.app.getName()} !!!`);
-        defineWindow();
-        defineMenu();
-        defineWindowHandlers();
-        // loadPage();
+        try {
+            console.log(`ready ${electron.app.getName()} !!!`);
+            defineTray();
+            defineWindow();
+            defineMenu();
+            defineWindowHandlers();
+            // loadPage();
+        } catch (e) {
+            console.error('error in main: ', e.message, e)
+        }
     });
 };
 
